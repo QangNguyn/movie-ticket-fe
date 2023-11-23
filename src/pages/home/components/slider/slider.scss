@@ -1,0 +1,10 @@
+.slider {
+  padding-bottom: 20px;
+  border-bottom: 10px dashed #000;
+  .slider-content {
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+}

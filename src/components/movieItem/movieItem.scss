@@ -1,0 +1,63 @@
+@import "../../assets/base";
+.movie-item {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  transition: 0.5s;
+  border: 4px solid transparent;
+  margin-top: 20px;
+  &::after {
+    content: " ";
+    position: absolute;
+    inset: 0 0 0 0;
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+  &:hover {
+    border-color: $primary;
+    img {
+      transform: scale(1);
+    }
+    button {
+      background-color: $primary;
+      color: #fff;
+    }
+  }
+  img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    transition: 0.5s;
+    transform: scale(1.1);
+  }
+  .movie-info {
+    position: absolute;
+    padding: 20px;
+    bottom: 0;
+    left: 0;
+    color: #fff;
+    z-index: 1000;
+    .movie-item-category.span,
+    .movie-item-duration.span {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .movie-item-name {
+      font-size: 24px;
+      text-decoration: none;
+      color: #fff;
+      display: block;
+      font-weight: 600;
+      text-transform: capitalize;
+      &:hover {
+        color: $primary;
+        transition: 0.5s;
+      }
+    }
+    button {
+      font-size: 16px;
+      padding: 6px 14px;
+      margin-top: 14px;
+      transition: 0.5s;
+    }
+  }
+}

@@ -1,0 +1,44 @@
+@import "../../../../assets/base";
+
+.top-feature {
+  padding: 60px 0;
+  position: relative;
+  background-color: #f3f3f3;
+  .overlay {
+    background-image: url(https://demo.ovatheme.com/aovis/wp-content/uploads/2023/03/seat-bg.png);
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.1;
+    mix-blend-mode: luminosity;
+    transition: background 0.3s, border-radius 0.3s, opacity 0.3s;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+  }
+  svg {
+    font-size: 26px;
+    color: $primary;
+  }
+  .sub-title {
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: $text-color;
+  }
+  .title {
+    font-size: 50px;
+    color: #000;
+    font-weight: 700;
+  }
+  .intro {
+    font-size: 18px;
+    font-weight: 600;
+    color: $text-color;
+  }
+  .feature-wrap {
+    margin-top: 30px;
+  }
+}

@@ -1,0 +1,58 @@
+@import "../../assets/base";
+.feature-item {
+  position: relative;
+  height: 400px;
+  &:hover {
+    img {
+      transform: translateY(10px);
+    }
+  }
+  img {
+    height: 260px;
+    width: 100%;
+    object-fit: cover;
+    transition: 0.5s;
+  }
+  .movie-info {
+    position: absolute;
+    width: 80%;
+    background-color: #fff;
+    padding: 40px 30px;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    .movie-name {
+      margin: 0 0 8px 0;
+      font-size: 20px;
+      line-height: 1.3;
+      display: block;
+      color: #000;
+      text-decoration: none;
+      font-weight: 600;
+      text-transform: capitalize;
+      &:hover {
+        color: $primary;
+      }
+    }
+    .movie-category,
+    .movie-duration {
+      font-size: 13px;
+      color: $text-color;
+      font-weight: 600;
+      svg {
+        font-size: 16px;
+        margin-right: 8px;
+      }
+    }
+    .movie-category:hover {
+      color: $primary;
+    }
+    button {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 20px;
+    }
+  }
+}

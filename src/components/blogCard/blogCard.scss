@@ -1,0 +1,74 @@
+@import "../../assets/base";
+.blog-card {
+  width: 100%;
+  box-shadow: 0px 10px 60px 0px rgba(0, 0, 0, 0.07);
+
+  .blog-img {
+    position: relative;
+    overflow: hidden;
+    &:hover {
+      img {
+        transform: scale(1.1);
+      }
+    }
+    img {
+      width: 100%;
+      transition: 0.5s;
+    }
+    .blog-date {
+      display: inline-block;
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      span {
+        color: #fff;
+        padding: 5px 10px;
+        background-color: $primary;
+        font-size: 12px;
+        font-weight: 500;
+      }
+    }
+  }
+  .blog-content {
+    padding: 30px;
+    .blog-name {
+      font-size: 22px;
+      display: block;
+      line-height: 1.1;
+      color: #000;
+      font-weight: 700;
+      text-transform: capitalize;
+      transition: 0.5s;
+      &:hover {
+        color: $primary;
+      }
+    }
+    .read-more {
+      display: inline-block;
+      margin-top: 20px;
+      font-size: 13px;
+      color: $text-color;
+      padding: 2px 5px;
+      font-weight: 500;
+      position: relative;
+      &::after {
+        content: " ";
+        position: absolute;
+        width: 1px;
+        height: 6px;
+        bottom: 0;
+        right: 0;
+        background-color: $text-color;
+      }
+      &::before {
+        content: " ";
+        position: absolute;
+        width: 6px;
+        height: 1px;
+        bottom: 0;
+        right: 0;
+        background-color: $text-color;
+      }
+    }
+  }
+}

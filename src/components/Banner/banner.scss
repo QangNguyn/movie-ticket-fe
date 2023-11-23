@@ -1,0 +1,37 @@
+.banner-wrap {
+  padding-bottom: 20px;
+  border-bottom: 10px dashed #000;
+  .header-banner {
+    background-image: url(https://demo.ovatheme.com/aovis/wp-content/uploads/2023/02/background-header-2.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 1;
+    transition: background 0.3s, border-radius 0.3s, opacity 0.3s;
+    position: relative;
+    text-align: center;
+
+    .banner-breadcrumb {
+      padding-top: 310px;
+      svg {
+        font-size: 16px;
+        color: #fff;
+        margin: 0 5px;
+      }
+      a,
+      span {
+        color: #fff;
+        font-size: 17px;
+        text-transform: capitalize;
+      }
+    }
+    .banner-heading {
+      padding-bottom: 185px;
+      h4 {
+        font-size: 50px;
+        color: #fff;
+        text-transform: capitalize;
+      }
+    }
+  }
+}
