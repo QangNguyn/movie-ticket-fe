@@ -1,15 +1,9 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import DefaultLayout from "./layouts/DefaultLayout";
-import StateProvider from "./context/StateProvider";
+import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import instance from "./utils/http";
 function App() {
-  // useEffect(() => {}, []);
-  return (
-    <StateProvider>
-      <DefaultLayout />
-    </StateProvider>
-  );
+  return <DefaultLayout />;
 }
 
 export default App;

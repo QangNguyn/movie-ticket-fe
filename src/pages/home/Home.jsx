@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Slider from "./components/slider/Slider";
 import NewMovies from "./components/newMovies/NewMovies";
 import TopFeature from "./components/topFeature/TopFeature";
@@ -12,8 +12,8 @@ export default function Home() {
       <Slider />
       <NewMovies />
       <Banner />
-      <TopFeature />
-      <ComingSoon />
+      {/* <TopFeature /> */}
+      {/* <ComingSoon /> */}
       <NewBlog />
     </>
   );

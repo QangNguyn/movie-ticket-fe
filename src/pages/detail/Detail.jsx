@@ -1,207 +1,192 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./detail.scss";
 import Banner from "../../components/Banner/Banner";
 import { Container, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { BsFillPlayFill } from "react-icons/bs";
 import MovieItem from "../../components/movieItem/MovieItem";
 import { Swiper, SwiperSlide } from "swiper/react";
 import TrailerModal from "../../components/TrailerModal/TrailerModal";
+import movieRequest from "../../requests/movieRequest";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import NotFound from "../../pages/notFound/NotFound";
 
 export default function Detail() {
-  const [modalShow, setModalShow] = useState(false)
-  const list = [
-    {
-      id: 1,
-      name: "The fifty day",
-      thumbnail:
-        "https://demo.ovatheme.com/aovis/wp-content/uploads/2023/03/banner-10-768x660.jpg",
-      category: "Comedy",
-      duration: "180",
-      coming_soon: true,
-    },
-    {
-      id: 2,
-      name: "The fifty day",
-      thumbnail:
-        "https://demo.ovatheme.com/aovis/wp-content/uploads/2023/03/movie-image-12-768x513.jpg",
-      category: "Comedy",
-      duration: "180",
-      coming_soon: false,
-    },
-    {
-      id: 3,
-      name: "The fifty day",
-      thumbnail:
-        "https://demo.ovatheme.com/aovis/wp-content/uploads/2023/03/movie-image-12-768x513.jpg",
-      category: "Comedy",
-      duration: "180",
-      coming_soon: false,
-    },
-    {
-      id: 4,
-      name: "The fifty day",
-      thumbnail:
-        "https://demo.ovatheme.com/aovis/wp-content/uploads/2023/03/movie-image-12-768x513.jpg",
-      category: "Comedy",
-      duration: "180",
-      coming_soon: false,
-    },
-    {
-      id: 5,
-      name: "The fifty day",
-      thumbnail:
-        "https://demo.ovatheme.com/aovis/wp-content/uploads/2023/03/movie-image-12-768x513.jpg",
-      category: "Comedy",
-      duration: "180",
-      coming_soon: false,
-    },
-    {
-      id: 6,
-      name: "The fifty day",
-      thumbnail:
-        "https://demo.ovatheme.com/aovis/wp-content/uploads/2023/03/movie-image-12-768x513.jpg",
-      category: "Comedy",
-      duration: "180",
-      coming_soon: false,
-    },
-  ];
+  let { slug } = useParams();
+  const [modalShow, setModalShow] = useState(false);
+  const [detail, setDetail] = useState({
+    isLoading: true,
+    data: {},
+    isError: false,
+  });
+  const [moviesCategory, setMoviesCategory] = useState({
+    isLoading: true,
+    moviesCategory: [],
+  });
+  const getDetail = async (slug) => {
+    const response = await movieRequest.getDetail(slug);
+    if (response.statusCode == 200) {
+      setDetail({
+        isLoading: false,
+        data: response.data,
+      });
+    } else {
+      setDetail({
+        ...detail,
+        isError: true,
+      });
+    }
+  };
+  const getMovieByCategory = async (id) => {
+    const response = await movieRequest.getMovieByCategory(id);
+    if (response.statusCode == 200) {
+      const data = response.data.filter((movie) => movie.id !== detail.data.id);
+      console.log({ id, data });
+      setMoviesCategory({
+        isLoading: false,
+        moviesCategory: data,
+      });
+    }
+  };
+  useEffect(() => {
+    getDetail(slug);
+  }, [slug]);
+
+  useEffect(() => {
+    if (!detail.isLoading) {
+      getMovieByCategory(detail.data.categories[0].id);
+    }
+  }, [detail]);
+  const {
+    name,
+    banner,
+    director,
+    description,
+    duration,
+    link_trailer,
+    performers,
+    categories,
+  } = detail.data;
+  const markup = { __html: description };
   return (
-    <div className="detail-movie">
-      <Banner />
-      <Container>
-        <div className="detail-container">
-          <h4 className="movie-name">The Pursuit of Dreams</h4>
-          <Link>Animation </Link>
-          <span>/ 180 Mins</span>
-          <div className="movie-thumbnail">
-            <Row>
-              <Col xs={12} lg={5}>
-                <img
-                  src="https://demo.ovatheme.com/aovis/wp-content/uploads/2023/03/img-3-gallery-slide.jpg"
-                  alt=""
-                />
-              </Col>
-              <Col xs={12} lg={7}>
-                <div className="trailer-thumbnail">
-                  <img
-                    src="https://demo.ovatheme.com/aovis/wp-content/uploads/2023/03/movie-image-08.jpg"
-                    alt=""
-                  />
-                  <button className="link-trailer" onClick={()=> {
-                    setModalShow(true)
-                  }}>
-                    <BsFillPlayFill />
-                  </button>
-                  <TrailerModal
-                    show={modalShow}
-                    onHide={() => setModalShow(false)}
-                  />
+    <>
+      {!detail.isError ? (
+        <>
+          {!detail.isLoading ? (
+            <div className="detail-movie">
+              <Banner />
+              <Container>
+                <div className="detail-container">
+                  <h4 className="movie-name">{name}</h4>
+                  <Link>{categories[0].name}</Link>
+                  <span>/{duration} mins</span>
+                  <div className="movie-thumbnail">
+                    <Row>
+                      <Col xs={12} lg={5}>
+                        <img src={performers[0].thumbnail} alt="" />
+                      </Col>
+                      <Col xs={12} lg={7}>
+                        <div className="trailer-thumbnail">
+                          <img src={banner} alt="" />
+                          <button
+                            className="link-trailer"
+                            onClick={() => {
+                              setModalShow(true);
+                            }}
+                          >
+                            <BsFillPlayFill />
+                          </button>
+                          <TrailerModal
+                            linkTrailer={link_trailer}
+                            show={modalShow}
+                            onHide={() => setModalShow(false)}
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </div>
+                  <ul className="movie-info-text">
+                    <li>
+                      <span className="info-title">Director: </span>
+                      <span>{director.name}</span>
+                    </li>
+                    <li>
+                      <span className="info-title">Time: </span>
+                      <span>{duration} mins</span>
+                    </li>
+                    <li>
+                      <span className="info-title">Category: </span>
+                      <span>
+                        {categories.map((category) => (
+                          <span key={category.id}>{category.name}, </span>
+                        ))}
+                      </span>
+                    </li>
+                    <li>
+                      <span className="info-title">Writer: </span>
+                      <span>
+                        {detail.data.writer ? detail.data.writer : "Update..."}
+                      </span>
+                    </li>
+                  </ul>
+                  <div className="movie-cast">
+                    <h2>Top Cast</h2>
+                    <div className="cast-container">
+                      {performers?.map((performer) => (
+                        <div className="cast-item" key={performer.id}>
+                          <img src={performer.thumbnail} alt="" />
+                          <div className="cast-info">
+                            <h4 className="cast-name">{performer.name}</h4>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="movie-storyline">
+                    <h2>Story Line</h2>
+                    <div className="storyline-content">
+                      <div dangerouslySetInnerHTML={markup} />
+                    </div>
+                  </div>
+                  <div className="movie-like-this">
+                    <h2>More Movies Like This</h2>
+
+                    {!moviesCategory.isLoading ? (
+                      <Swiper slidesPerView={4} spaceBetween={20}>
+                        {moviesCategory.moviesCategory.map((movie) => (
+                          <SwiperSlide key={movie.id}>
+                            <MovieItem movie={movie} />
+                          </SwiperSlide>
+                        ))}
+                      </Swiper>
+                    ) : (
+                      <Row>
+                        <Col xs={3}>
+                          <Skeleton height={250} />
+                        </Col>
+                        <Col xs={3}>
+                          <Skeleton height={250} />
+                        </Col>
+                        <Col xs={3}>
+                          <Skeleton height={250} />
+                        </Col>
+                        <Col xs={3}>
+                          <Skeleton height={250} />
+                        </Col>
+                      </Row>
+                    )}
+                  </div>
                 </div>
-              </Col>
-            </Row>
-          </div>
-          <ul className="movie-info-text">
-            <li>
-              <span className="info-title">Director: </span>
-              <span>Christine Eve</span>
-            </li>
-            <li>
-              <span className="info-title">Director: </span>
-              <span>Christine Eve</span>
-            </li>
-            <li>
-              <span className="info-title">Director: </span>
-              <span>Christine Eve</span>
-            </li>
-            <li>
-              <span className="info-title">Director: </span>
-              <span>Christine Eve</span>
-            </li>
-            <li>
-              <span className="info-title">Director: </span>
-              <span>Christine Eve</span>
-            </li>
-          </ul>
-          <div className="movie-cast">
-            <h2>Top Cast</h2>
-            <div className="cast-container">
-              <div className="cast-item">
-                <img
-                  src="https://demo.ovatheme.com/aovis/wp-content/uploads/2023/02/cast-01.jpg"
-                  alt=""
-                />
-                <div className="cast-info">
-                  <h4 className="cast-name">Le Tung Duong</h4>
-                  <p className="cast-description">as Ton Ngo Khong</p>
-                </div>
-              </div>
-              <div className="cast-item">
-                <img
-                  src="https://demo.ovatheme.com/aovis/wp-content/uploads/2023/02/cast-01.jpg"
-                  alt=""
-                />
-                <div className="cast-info">
-                  <h4 className="cast-name">Le Tung Duong</h4>
-                  <p className="cast-description">as Ton Ngo Khong</p>
-                </div>
-              </div>
-              <div className="cast-item">
-                <img
-                  src="https://demo.ovatheme.com/aovis/wp-content/uploads/2023/02/cast-01.jpg"
-                  alt=""
-                />
-                <div className="cast-info">
-                  <h4 className="cast-name">Le Tung Duong</h4>
-                  <p className="cast-description">as Ton Ngo Khong</p>
-                </div>
-              </div>
-              <div className="cast-item">
-                <img
-                  src="https://demo.ovatheme.com/aovis/wp-content/uploads/2023/02/cast-01.jpg"
-                  alt=""
-                />
-                <div className="cast-info">
-                  <h4 className="cast-name">Le Tung Duong</h4>
-                  <p className="cast-description">as Ton Ngo Khong</p>
-                </div>
-              </div>
-              <div className="cast-item">
-                <img
-                  src="https://demo.ovatheme.com/aovis/wp-content/uploads/2023/02/cast-01.jpg"
-                  alt=""
-                />
-                <div className="cast-info">
-                  <h4 className="cast-name">Le Tung Duong</h4>
-                  <p className="cast-description">as Ton Ngo Khong</p>
-                </div>
-              </div>
+              </Container>
             </div>
-          </div>
-          <div className="movie-storyline">
-            <h2>Story Line</h2>
-            <div className="storyline-content">
-              In a small town where everyone knows everyone, a peculiar incident
-              starts a chain of events that leads to a child’s disappearance,
-              which begins to tear at the fabric of an otherwise-peaceful
-              community. Dark government agencies and seemingly malevolent
-              supernatural forces converge on the town, while a few of the
-              locals begin to understand that more is going on than meets the
-              eye.
-            </div>
-          </div>
-          <div className="movie-like-this">
-            <h2>More Movies Like This</h2>
-            <Swiper slidesPerView={4} spaceBetween={20}>
-              {list.map((movie) => (
-                <SwiperSlide key={movie.id}>
-                  <MovieItem movie={movie} />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        </div>
-      </Container>
-    </div>
+          ) : (
+            <span>Loading...</span>
+          )}
+        </>
+      ) : (
+        <NotFound />
+      )}
+    </>
   );
 }

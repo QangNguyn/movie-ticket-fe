@@ -6,16 +6,20 @@ import Home from "../pages/home/Home";
 import AllMovies from "../pages/allMovies/AllMovies";
 import Detail from "../pages/detail/Detail";
 import MyAccount from "../pages/myAccount/MyAccount";
+import ScrollToTop from "../components/ScrollToTop";
+import NotFound from "../pages/notFound/NotFound";
 
 export default function DefaultLayout() {
   return (
     <>
       <Header />
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/all-movie" element={<AllMovies />} />
         <Route path="/movie/:slug" element={<Detail />} />
         <Route path="/account" element={<MyAccount />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </>
