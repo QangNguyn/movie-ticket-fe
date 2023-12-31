@@ -1,4 +1,3 @@
-import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import "./listMovie.scss";
 import MovieItem from "../../../../components/movieItem/MovieItem";

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./detail.scss";
 import Banner from "../../components/Banner/Banner";
 import { Container, Row, Col } from "react-bootstrap";
@@ -50,6 +50,7 @@ export default function Detail() {
     }
   };
   useEffect(() => {
+    setDetail({ isLoading: true , data: []});
     getDetail(slug);
   }, [slug]);
 

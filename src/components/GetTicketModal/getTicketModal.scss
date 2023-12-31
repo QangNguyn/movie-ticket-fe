@@ -1,4 +1,67 @@
+@import '../../assets/base.scss';
 .modal-90w {
-    width: 90vw;
-    max-width: 90vw;
+  width: 90vw;
+  max-width: 90vw;
+  .showtime-date {
+    display: flex;
+    flex-wrap: wrap;
+    .showtime-item {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      padding: 5px;
+      margin-right: 10px;
+      border-radius: 5px;
+      border: 2px solid transparent;
+      > div {
+        display: flex;
+        flex-direction: column;
+        margin-right: 8px;
+        .month {
+          display: block;
+        }
+        span {
+          font-size: 20px;
+        }
+      }
+      .date {
+        font-size: 35px;
+        font-weight: 500;
+        color: #8b8b8b;
+      }
+      &.active {
+        border-color: #000;
+      }
+    }
+  }
+  .showtime-info {
+    margin:0 20px;
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #000;
+    .showtime-heading {
+      font-size: 20px;
+      color: $text-color;
+      font-weight: 700;
+    }
+    .showtime-address {
+      display: block;
+      padding: 5px 0;
+      font-size: 14px;
+      font-weight: bold;
+      color: #000;
+    }
+    .showtime-wrap {
+      display: flex;
+      gap: 10px;
+      .showtime-time {
+        border: 1px solid #ccc;
+        padding: 4px 20px;
+        color: $text-color;
+        &:hover {
+          border-color: #000;
+        }
+      }
+    }
+  }
 }

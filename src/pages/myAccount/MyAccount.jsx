@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Banner from "../../components/Banner/Banner";
 import { Link } from "react-router-dom";
 import "./login.scss";
